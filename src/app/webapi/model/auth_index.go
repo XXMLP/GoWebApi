@@ -9,9 +9,10 @@ type AuthIndexResponse struct {
 		Status string `json:"status"`
 		// Required: true
 		Data struct {
-			User string `json:"user"`
+			UserId string `json:"userId"`
 			// Required: true
 			Token string `json:"token"`
 		} `json:"data"`
+		Message string `json:"message"`
 	}
 }

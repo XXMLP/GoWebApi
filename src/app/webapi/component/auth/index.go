@@ -1,7 +1,10 @@
 package auth
 
 import (
+	"app/webapi/pkg/structcopy"
 	"app/webapi/store"
+	"crypto/md5"
+	"encoding/hex"
 	"errors"
 	"net/http"
 	"time"
@@ -21,7 +24,7 @@ func (p *Endpoint) Index(w http.ResponseWriter, r *http.Request) (int, error) {
 	type request struct {
 		// in: formData
 		// Required: true
-		LastName string `json:"last_name" validate:"required"`
+		FirstName string `json:"first_name" validate:"required"`
 		// in: formData
 		// Required: true
 		Password string `json:"password" validate:"required"`
@@ -36,18 +39,12 @@ func (p *Endpoint) Index(w http.ResponseWriter, r *http.Request) (int, error) {
 	}
 	// Create the DB store.
 	u := store.NewUser(p.DB, p.Q)
-	password, err := p.Password.HashString(req.Password)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-
+	// MD5 the password.
+	h := md5.New()
+	h.Write([]byte(req.Password))
+	password := hex.EncodeToString(h.Sum(nil))
 	// Check for existing item.
-	exists, err := u.FindByLastNameAndPassword(u, "last_name", req.LastName, "password", password)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	} else if !exists {
-		return http.StatusBadRequest, errors.New("用户名或密码错误")
-	}
+	exists, err := u.FindByLastNameAndPassword(u, "first_name", req.FirstName, "password", password)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	} else if !exists {
@@ -55,15 +52,19 @@ func (p *Endpoint) Index(w http.ResponseWriter, r *http.Request) (int, error) {
 	}
 
 	item := new(model.UserShowResponseData)
-
-	t, err := p.Token.Generate(item.ID, 8*time.Hour)
+	err = structcopy.ByTag(u, "db", item, "json")
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	token, err := p.Token.Generate(item.ID, 8*time.Hour)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
 
 	resp := new(model.AuthIndexResponse)
 	resp.Body.Status = http.StatusText(http.StatusOK)
-	resp.Body.Data.User = item.LastName
-	resp.Body.Data.Token = t
+	resp.Body.Data.UserId = item.ID
+	resp.Body.Data.Token = token
+	resp.Body.Message = "身份校验成功"
 	return p.Response.JSON(w, resp.Body)
 }

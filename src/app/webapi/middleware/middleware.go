@@ -17,7 +17,7 @@ func Wrap(h http.Handler, l logrequest.ILog, secret []byte) http.Handler {
 	// JWT whitelist.
 	whitelist := []string{
 		"GET /v1",
-		"GET /v1/auth",
+		"POST /v1/auth",
 	}
 
 	// JWT validation.

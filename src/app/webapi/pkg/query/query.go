@@ -48,14 +48,12 @@ func (q *Q) FindAll(dest IRecord) (total int, err error) {
 	return total, err
 }
 
-// login with check a user lastName and password
+// login with check a user two fields
 func (q *Q) FindByLastNameAndPassword(db IRecord, field1 string, value1 string, field2 string, value2 string) (found bool, err error) {
 	err = q.db.Get(db, fmt.Sprintf(`
 		SELECT * FROM %s
 		WHERE %s = ? 
-		LIMIT 1 
-		&& %s = ?
-		LIMIT 2`, db.Table(), field1, field2),
+		&& %s = ?`, db.Table(), field1, field2),
 		value1, value2)
 
 	return recordExists(err)

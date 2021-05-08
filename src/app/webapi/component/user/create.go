@@ -1,6 +1,8 @@
 package user
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"errors"
 	"net/http"
 
@@ -49,18 +51,17 @@ func (p *Endpoint) Create(w http.ResponseWriter, r *http.Request) (int, error) {
 	u := store.NewUser(p.DB, p.Q)
 
 	// Check for existing item.
-	exists, _, err := u.ExistsByField(u, "email", req.Email)
+	exists, _, err := u.ExistsByField(u, "first_name", req.FirstName)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	} else if exists {
 		return http.StatusBadRequest, errors.New("user already exists")
 	}
 
-	// Encrypt the password.
-	password, err := p.Password.HashString(req.Password)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
+	// MD5 the password.
+	h := md5.New()
+	h.Write([]byte(req.Password))
+	password := hex.EncodeToString(h.Sum(nil))
 
 	// Create the item.
 	ID, err := u.Create(req.FirstName, req.LastName, req.Email, password)

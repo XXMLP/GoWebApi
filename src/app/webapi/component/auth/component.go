@@ -18,5 +18,5 @@ type Endpoint struct {
 
 // Routes will set up the endpoints.
 func (p *Endpoint) Routes(router component.IRouter) {
-	router.Get("/v1/auth", p.Index)
+	router.Post("/v1/auth", p.Index)
 }
