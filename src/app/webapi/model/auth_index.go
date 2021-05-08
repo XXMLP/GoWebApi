@@ -9,6 +9,7 @@ type AuthIndexResponse struct {
 		Status string `json:"status"`
 		// Required: true
 		Data struct {
+			User string `json:"user"`
 			// Required: true
 			Token string `json:"token"`
 		} `json:"data"`

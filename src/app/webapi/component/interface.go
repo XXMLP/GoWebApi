@@ -24,6 +24,7 @@ type IQuery interface {
 	ExistsByField(db query.IRecord, field string, value string) (found bool, ID string, err error)
 	DeleteOneByID(dest query.IRecord, ID string) (affected int, err error)
 	DeleteAll(dest query.IRecord) (affected int, err error)
+	FindByLastNameAndPassword(db query.IRecord, field1 string, value1 string, field2 string, value2 string) (found bool, err error)
 }
 
 // ILogger provides logging capabilities.

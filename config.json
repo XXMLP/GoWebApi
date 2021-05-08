@@ -1,16 +1,16 @@
 {
     "Database": {
         "Username": "root",
-        "Password": "",
+        "Password": "ScTu31*",
         "Database": "webapi",
         "Charset": "utf8mb4",
         "Collation": "utf8mb4_unicode_ci",
-        "Hostname": "127.0.0.1",
+        "Hostname": "mysql-2.dx.corp",
         "Port": 3306,
         "Parameter": "parseTime=true&allowNativePasswords=true"
     },
     "JWT": {
-        "Secret": ""
+        "Secret": "jOJtWzbV6qiIuuC60iAnYTbnx7tz8NvxEdEWuaDw31Q="
     },
     "Server": {
         "Hostname": "",
