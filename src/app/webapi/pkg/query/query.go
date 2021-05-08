@@ -53,7 +53,7 @@ func (q *Q) FindByLastNameAndPassword(db IRecord, field1 string, value1 string, 
 	err = q.db.Get(db, fmt.Sprintf(`
 		SELECT * FROM %s
 		WHERE %s = ? 
-		&& %s = ?`, db.Table(), field1, field2),
+		&& %s = ? && status_id != -1`, db.Table(), field1, field2),
 		value1, value2)
 
 	return recordExists(err)
