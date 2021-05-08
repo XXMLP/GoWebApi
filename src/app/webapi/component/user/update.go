@@ -59,6 +59,13 @@ func (p *Endpoint) Update(w http.ResponseWriter, r *http.Request) (int, error) {
 		return http.StatusBadRequest, errors.New("user not found")
 	}
 
+	exists, _, err = u.ExistsByField(u, "first_name", req.FirstName)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	} else if exists {
+		return http.StatusBadRequest, errors.New("user already exist")
+	}
+
 	// Encrypt the password.
 	password, err := p.Password.HashString(req.Password)
 	if err != nil {
