@@ -1,0 +1,12 @@
+# IDE specific settings
+/.vscode/
+
+# Go specific files
+/pkg/
+/bin/
+
+# MacOS files
+.DS_Store
+
+# Ignore other packages
+/src/github.com/
