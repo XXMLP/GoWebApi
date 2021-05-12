@@ -1,7 +1,7 @@
 package docker
 
 import (
-	"app/webapi/model"
+	"app/webapi/model/docker"
 	"encoding/json"
 	"github.com/valyala/fasthttp"
 	"net/http"
@@ -49,13 +49,13 @@ func (p *Endpoint) Info(w http.ResponseWriter, r *http.Request) (int, error) {
 		return http.StatusBadRequest, err
 	}
 	//格式化返回参数
-	body := new(model.DockerInfoResponseData)
+	body := new(docker.DockerInfoResponseData)
 	if err := json.Unmarshal(resp.Body(), body); err != nil {
 		return http.StatusBadRequest, err
 	}
 
 	// Send the response.
-	response := new(model.DockerInfoResponse)
+	response := new(docker.DockerInfoResponse)
 	response.Body.Status = http.StatusText(http.StatusOK)
 	response.Body.Data = body
 	return p.Response.JSON(w, response.Body)
