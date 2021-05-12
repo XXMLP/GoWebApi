@@ -65,6 +65,6 @@ func (p *Endpoint) Index(w http.ResponseWriter, r *http.Request) (int, error) {
 	resp.Body.Status = http.StatusText(http.StatusOK)
 	resp.Body.Data.UserId = item.ID
 	resp.Body.Data.Token = token
-	resp.Body.Message = "身份校验成功"
+	resp.Body.Message = "用户校验成功"
 	return p.Response.JSON(w, resp.Body)
 }
