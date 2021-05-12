@@ -30,4 +30,5 @@ var (
 // Routes will set up the endpoints.
 func (p *Endpoint) Routes(router component.IRouter) {
 	router.Post("/v1/docker/info", p.Info)
+	router.Post("/v1/docker/containers", p.Containers)
 }
