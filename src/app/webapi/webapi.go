@@ -26,6 +26,7 @@
 package webapi
 
 import (
+	"app/webapi/component/docker"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -94,6 +95,7 @@ func Routes(core component.Core) *router.Mux {
 	root.New(core).Routes(r)
 	auth.New(core).Routes(r)
 	user.New(core).Routes(r)
+	docker.New(core).Routes(r)
 
 	// Set up the 404 page.
 	r.Instance().NotFound = router.Handler(
