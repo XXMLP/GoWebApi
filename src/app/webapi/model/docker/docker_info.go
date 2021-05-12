@@ -1,4 +1,4 @@
-package model
+package docker
 
 // UserIndexResponse returns 200.
 // swagger:response DockerInfoResponse
@@ -15,7 +15,7 @@ type DockerInfoResponse struct {
 // DockerInfoResponseData is the docker data.
 type DockerInfoResponseData struct {
 	ID                string `json:"ID"`
-	Containers        int    `json:"first_name"`
+	Containers        int    `json:"Containers"`
 	ContainersRunning int    `json:"ContainersRunning"`
 	ContainersPaused  int    `json:"ContainersPaused"`
 	ContainersStopped int    `json:"ContainersStopped"`
